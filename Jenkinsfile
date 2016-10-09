@@ -32,6 +32,10 @@ node {
         }
  }
 
+stage 'Deploy'
+node {
+        sh "docker service update --image 127.0.0.1:8443/myapp:${env.BUILD_TAG} myservice"
+ }
 
   
   
