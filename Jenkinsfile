@@ -8,10 +8,9 @@ node {
     // docker.image("my-environment:v${VERSION_TAG}").push("127.0.0.1:8443/my-environment:v${VERSION_TAG}")
   }
   git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
-  def newApp = docker.build "127.0.0.1:8443/myapp:${env.BUILD_TAG}"
+  def newApp = docker.build "192.168.51.6:8443/myapp:${env.BUILD_TAG}"
   newApp.push "latest" // Replace with "${env.BUILD_TAG}"
 }
-
 
 // stage 'Build'
 // node {
@@ -23,7 +22,6 @@ node {
 //   // }
   
 // }
-
 
 stage 'Test'
 node {
