@@ -9,7 +9,7 @@ node {
   }
   git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
   def newApp = docker.build "192.168.51.6:8443/myapp:${env.BUILD_TAG}"
-  newApp.push "latest" // Replace with "${env.BUILD_TAG}"
+  newApp.push "${env.BUILD_TAG}" // Replace with "${env.BUILD_TAG}"
 }
 
 // stage 'Build'
