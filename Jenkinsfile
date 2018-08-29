@@ -25,14 +25,14 @@ node {
 
 stage 'Test'
 node {
-        docker.image("127.0.0.1:8443/myapp:${env.BUILD_TAG}").withRun('-p 5000:5000') {c ->
-        input message: "Does http://127.0.0.1:5000 look good?"
+        docker.image("192.168.51.6:8443/myapp:${env.BUILD_TAG}").withRun('-p 5000:5000') {c ->
+        input message: "Does http://127.0.0.1:5100 look good?"
         }
  }
 
 stage 'Deploy'
 node {
-        sh "docker service update --image 127.0.0.1:8443/myapp:${env.BUILD_TAG} myservice"
+        sh "docker service update --image 192.168.51.6:8443/myapp:${env.BUILD_TAG} myservice"
  }
 
   
