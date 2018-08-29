@@ -25,7 +25,7 @@ node {
 
 stage 'Test'
 node {
-        docker.image("192.168.51.6:8443/myapp:${env.BUILD_TAG}").withRun('-p 5000:5000') {c ->
+        docker.image("192.168.51.6:8443/myapp:${env.BUILD_TAG}").withRun('-p 5000:5000', '--name splain') {c ->
         input message: "Does http://127.0.0.1:5100 look good?"
         }
  }
