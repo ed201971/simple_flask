@@ -31,10 +31,10 @@ node {
           newApp.push "${newtag}"
     }
     stage('Commit Tags') {
-          sh("git config --global user.name <jenkins>")
-          sh("git config --global user.email <noone@nowhere.com>")
-          sh("git tag -a ${newtag}")
-          sh("git push --tags")
+          sh(returnStdout: true, script: "git config --global user.name <jenkins>")
+          sh(returnStdout: true, script: "git config --global user.email <noone@nowhere.com>")
+          sh(returnStdout: true, script: "git tag -a ${newtag}")
+          sh(returnStdout: true, script: "git push --tags")
     }
 
   }
