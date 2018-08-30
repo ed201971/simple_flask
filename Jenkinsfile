@@ -14,7 +14,11 @@ node {
     }
 
     stage('Clone repo') {
-      checkout scm
+      // checkout scm
+      git url: "ssh://git@github.com:ed201971/simple_flask.git",
+        credentialsId: 'githubssh',
+        branch: master
+      
     }
 
     stage('Build image') {
@@ -34,12 +38,8 @@ node {
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
-          // sshagent(['githubssh']) {
-          //   sh "git push --tags"
-          // }
-          withCredentials([sshUserPrivateKey(credentialsId: 'githubssh', keyFileVariable: 'SSH_KEY')]) {
-            sh("git push --tags")
-            }
+          sh(returnStdout: true, script: "git push --tags")
+
     }
 
   }
