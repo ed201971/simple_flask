@@ -37,7 +37,7 @@ node {
           // sshagent(['githubssh']) {
           //   sh "git push --tags"
           // }
-          withCredentials([sshUserPrivateKey(credentialsId: 'ed201971', keyFileVariable: 'SSH_KEY')]) {
+          withCredentials([sshUserPrivateKey(credentialsId: 'githubssh', keyFileVariable: 'SSH_KEY')]) {
             sh("git push --tags")
             }
     }
