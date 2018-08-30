@@ -1,2 +1,2 @@
 Flask
-cx_Freeze==4.3.4
+PyInstaller

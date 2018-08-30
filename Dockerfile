@@ -5,7 +5,7 @@ COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 #RUN python -m pip install cx_Freeze --upgrade 
-RUN echo "splain" && cxfreeze app.py --target-dir dist
+RUN pyinstaller --onefile app.py
 RUN pwd
 RUN ls -lah dist/app
 
