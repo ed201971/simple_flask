@@ -34,7 +34,9 @@ node {
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
-          sh(returnStdout: true, script: "git push --tags")  
+          sshagent(['githubssh']) {
+            sh "git push --tags"
+          }
     }
 
   }
