@@ -12,22 +12,19 @@ node {
   println tag
 
   git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
-  def newApp = docker.build "192.168.51.6:8443/myapp:${env.BUILD_TAG}"
-  newApp.push "${env.BUILD_TAG}" // Replace with "${env.BUILD_TAG}"
+  def newApp = docker.build "192.168.51.6:8443/myapp:${tag}"
+  newApp.push "${tag}"
 }
 
 stage 'Test'
 node {
         sh "echo ${env}"
-        docker.image("192.168.51.6:8443/myapp:${env.BUILD_TAG}").withRun('-p 5000:5000') {c ->
+        docker.image("192.168.51.6:8443/myapp:${tag}").withRun('-p 5000:5000') {c ->
         input message: "Does http://127.0.0.1:5100 look good?"
         }
  }
 
-stage 'Deploy'
-node {
-        sh "docker service update --image 192.168.51.6:8443/myapp:${env.BUILD_TAG} myservice"
- }
-
-  
-  
+//stage 'Deploy'
+//node {
+//        sh "docker service update --image 192.168.51.6:8443/myapp:${env.BUILD_TAG} myservice"
+// }
