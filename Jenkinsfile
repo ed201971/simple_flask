@@ -2,8 +2,9 @@ node {
 
     //Define newApp object
     def newApp
-    // Get latest tag from branch
+    // Get latest tag from branch and bump new patch
     def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+    def newtag = sh(returnStdout: true, script: "semver bump patch ${tag}")
 
     // Log in to private registry
     stage('Login to Registry') {
@@ -27,9 +28,13 @@ node {
     }
 
     stage('Push image') {
-          def newtag = sh(returnStdout: true, script: "semver bump patch ${tag}")
-          println newtag
           newApp.push "${newtag}"
+    }
+    stage('Commit Tags') {
+          git config --global user.name "jenkins"
+          git config --global user.email "noone@nowhere.com"
+          git tag -a ${newtag}
+          git push --tags
     }
 
   }
