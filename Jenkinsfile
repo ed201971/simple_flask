@@ -1,15 +1,10 @@
-pipeline {
-  agent any
-  
-    stages {
-        stage('Build') {
-            steps {
-                println tag
-                script {
-                  def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
-                }  
-            }
-        }
+
+stage('Build') {
+  node {
+      def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+      println tag
+  }
+}
 
         // stage('Package') {
         //   steps {
@@ -34,6 +29,3 @@ pipeline {
         //       }
         //    }
         // }
-
-    }
-}
