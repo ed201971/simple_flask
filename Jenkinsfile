@@ -2,7 +2,14 @@ pipeline {
   agent any
   
   stages {
-    
+      
+    stage ('Prep') {
+      steps {
+        def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+        println tag
+      }
+    }
+
     stage ('Package') {
       steps {
           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusAdmin',
