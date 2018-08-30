@@ -34,7 +34,10 @@ node {
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '3f195083-2e3b-467d-b350-435d826315e8',
+                      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
           sh(returnStdout: true, script: "git push --tags")
+          }     
     }
 
   }
