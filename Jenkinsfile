@@ -6,18 +6,6 @@ node {
     def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
     def newtag = sh(returnStdout: true, script: "semver bump patch ${tag}")
 
-    checkout([
-      $class: 'GitSCM',
-      branches: [[name: branch]],
-      extensions: [
-          [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
-      ],
-      submoduleCfg: [],
-      userRemoteConfigs: [
-          [ credentialsId: 'githubssh', url: cloneUrl]
-      ]
-    ])
-
     // Log in to private registry
     stage('Login to Registry') {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusAdmin',
@@ -43,6 +31,7 @@ node {
           newApp.push "${newtag}"
     }
     stage('Commit Tags') {
+          git credentialsId: 'githubssh', url: 'https://github.com/ed201971/simple_flask.git/'
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
