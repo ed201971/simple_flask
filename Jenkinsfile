@@ -33,7 +33,7 @@ node {
     stage('Commit Tags') {
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
-          sh(returnStdout: true, script: "git tag -a ${newtag}")
+          sh(returnStdout: true, script: "git tag -a ${newtag} -m 'Success!'")
           sh(returnStdout: true, script: "git push --tags")
     }
 
