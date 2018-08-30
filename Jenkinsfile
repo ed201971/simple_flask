@@ -3,14 +3,14 @@ pipeline {
   
   stages {
       
-    stage ('Prep') {
+    stage('Prep') {
       steps {
         def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
         println tag
       }
     }
 
-    stage ('Package') {
+    stage('Package') {
       steps {
           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusAdmin',
                           usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
@@ -27,7 +27,7 @@ pipeline {
       }
     }
 
-    stage ('Test') {
+    stage('Test') {
       steps {
           docker.image("192.168.51.6:8443/myapp:${tag}").withRun('-p 5000:5000') {c ->
           input message: "Does http://127.0.0.1:5100 look good?"
