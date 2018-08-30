@@ -29,7 +29,7 @@ node {
     stage('Push tags') {
           def newtag = sh(returnStdout: true, script: "semver bump patch ${tag}")
           println newtag
-          newApp.push "${tag}"
+          newApp.push "${newtag}"
     }
 
   }
