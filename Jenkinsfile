@@ -4,8 +4,6 @@ node {
     def newApp
     // Get latest tag from branch
     def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
-    def semver = sh(returnStdout: true, script: "semver --version")
-    println semver
 
     // Log in to private registry
     stage('Log in to Registry') {
@@ -29,6 +27,8 @@ node {
     }
 
     stage('Push tags') {
+          def newtag = sh(returnStdout: true, script: "semver bump patch ${tag}")
+          println newtag
           newApp.push "${tag}"
     }
 
