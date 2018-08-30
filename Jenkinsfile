@@ -8,8 +8,8 @@ node {
     // docker.image("my-environment:v${VERSION_TAG}").push("127.0.0.1:8443/my-environment:v${VERSION_TAG}")
   }
 
-  TAG = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
-  echo "git tag: $(TAG)"
+  def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+  println tag
 
   git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
   def newApp = docker.build "192.168.51.6:8443/myapp:${env.BUILD_TAG}"
