@@ -1,5 +1,7 @@
 node {
 
+    //Define newApp object
+    def newApp
     // Get latest tag from branch
     def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
 
@@ -8,10 +10,6 @@ node {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusAdmin',
                       usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
           sh 'docker login 192.168.51.6:8443 -u $USERNAME -p $PASSWORD'
-
-      //git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
-      // def newApp = docker.build "192.168.51.6:8443/myapp:${tag}"
-      // newApp.push "${tag}"
     }
 
     stage('Clone repo') {
@@ -19,7 +17,7 @@ node {
     }
 
     stage('Build image') {
-      def newApp = docker.build "192.168.51.6:8443/myapp:${tag}"
+      newApp = docker.build "192.168.51.6:8443/myapp:${tag}"
     }
 
     stage('Test') {
