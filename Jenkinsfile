@@ -31,12 +31,18 @@ node {
           newApp.push "${newtag}"
     }
     stage('Commit Tags') {
-          git credentialsId: 'github', url: cloneURL
+
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
-          sh(returnStdout: true, script: "git push --tags")
-
+          // sh(returnStdout: true, script: "git push --tags")
+          withCredentials([sshUserPrivateKey(credentialsId: 'githubssh', keyFileVariable: 'SSH_KEY')]) {
+          sh 'echo ssh -i $SSH_KEY -l git -o StrictHostKeyChecking=no \\"\\$@\\" > local_ssh.sh'
+          sh 'chmod +x local_ssh.sh'
+          withEnv(['GIT_SSH=local_ssh.sh']) {
+              sh 'git push --tags'
+          }
+        } 
     }
 
   }
