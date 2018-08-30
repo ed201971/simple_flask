@@ -13,4 +13,4 @@ FROM ubuntu:latest
 COPY --from=0 /app/dist/* /tmp/dist/
 ARG CONFIGMAP=not_set_yet
 ENV CONFIGMAP $CONFIGMAP
-ENTRYPOINT ["/tmp/dist/app"]
+ENTRYPOINT ["/tmp/dist/app", "splain"]
