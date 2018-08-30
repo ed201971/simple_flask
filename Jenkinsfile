@@ -7,21 +7,13 @@ node {
         sh 'docker login 192.168.51.6:8443 -u $USERNAME -p $PASSWORD'
     // docker.image("my-environment:v${VERSION_TAG}").push("127.0.0.1:8443/my-environment:v${VERSION_TAG}")
   }
+
+  sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+
   git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
   def newApp = docker.build "192.168.51.6:8443/myapp:${env.BUILD_TAG}"
   newApp.push "${env.BUILD_TAG}" // Replace with "${env.BUILD_TAG}"
 }
-
-// stage 'Build'
-// node {
-// 	git 'https://github.com/ed201971/simple_flask.git' // checks out Dockerfile
-//   def newApp = docker.build "127.0.0.1:8443/myapp:${env.BUILD_TAG}"
-// 	// docker.build "my-environment:v${VERSION_TAG}"
-//   // myEnv.inside {
-//   //   sh 'make test'
-//   // }
-  
-// }
 
 stage 'Test'
 node {
