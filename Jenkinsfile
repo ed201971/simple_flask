@@ -31,7 +31,7 @@ node {
           newApp.push "${newtag}"
     }
     stage('Commit Tags') {
-          git credentialsId: 'github', url: 'https://github.com/ed201971/simple_flask.git'
+          git credentialsId: 'github', url: cloneURL
           sh(returnStdout: true, script: "git config --global user.name jenkins")
           sh(returnStdout: true, script: "git config --global user.email noone@nowhere.com")
           sh(returnStdout: true, script: "git tag ${newtag}")
