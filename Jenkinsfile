@@ -2,7 +2,7 @@ node {
 
   def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
   println tag
-  
+
   stage('Package') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusAdmin',
                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
@@ -22,9 +22,4 @@ node {
   }
 
 }
-
-
-
-
-
-
+}
