@@ -1,14 +1,19 @@
 pipeline {
   agent any
   
-  stages {
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
       
-    stage('Prep') {
-      steps {
-        def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
-        println tag
-      }
-    }
+        stage('Prep') {
+            steps {
+                def tag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+                println tag
+            }
+        }
 
     stage('Package') {
       steps {
