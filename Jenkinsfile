@@ -17,19 +17,19 @@ node {
       checkout scm
     }
 
-    stage('Build image') {
-      newApp = docker.build "192.168.51.6:8443/myapp:build"
-    }
+    // stage('Build image') {
+    //   newApp = docker.build "192.168.51.6:8443/myapp:build"
+    // }
 
-    stage('Test') {
-          docker.image("192.168.51.6:8443/myapp:build").withRun('-p 5000:5000') {c ->
-          input message: "Does http://127.0.0.1:5100 look good?"
-          }
-    }
+    // stage('Test') {
+    //       docker.image("192.168.51.6:8443/myapp:build").withRun('-p 5000:5000') {c ->
+    //       input message: "Does http://127.0.0.1:5100 look good?"
+    //       }
+    // }
 
-    stage('Push image') {
-          newApp.push "${newtag}"
-    }
+    // stage('Push image') {
+    //       newApp.push "${newtag}"
+    // }
     stage('Commit Tags') {
 
           sh(returnStdout: true, script: "git config --global user.name jenkins")
